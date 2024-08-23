@@ -6,9 +6,15 @@ import { getTotalExpenses } from '@/selectors/financialSelectors';
 
 const BudgetGoals = () => {
   const [goal, setGoal] = useState('');
+  const [isClient, setIsClient] = useState(false); // New state to ensure client-side rendering
+
   const dispatch = useDispatch();
   const goals = useSelector((state) => state.budgetGoals);
   const totalExpenses = useSelector(getTotalExpenses);
+
+  useEffect(() => {
+    setIsClient(true); // Now we know we are on the client
+  }, []);
 
   const handleAddGoal = () => {
     if (!goal) return;
@@ -28,8 +34,12 @@ const BudgetGoals = () => {
     return goalAmount > 0 ? Math.min((totalExpenses / goalAmount) * 100, 100) : 0;
   };
 
+  if (!isClient) {
+    return null; // Return nothing or a loading state during SSR
+  }
+
   return (
-    <div className="mt-4">
+    <div className="mt-4 min-h-screen w-[90%] mx-auto">
       <h2 className="text-xl font-semibold">Budget Goals</h2>
       <div className="mb-4">
         <input
@@ -46,10 +56,10 @@ const BudgetGoals = () => {
           Add Goal
         </button>
       </div>
-      <div>
+      <ul>
         {goals && goals.length > 0 ? (
           goals.map((goal) => (
-            <div key={goal.id} className="mb-2 flex items-center justify-between">
+            <li key={goal.id} className="mb-2 flex items-center justify-between">
               <div>
                 <span className="mr-2">${goal.amount.toFixed(2)}</span>
                 <span className={`text-${goal.achieved ? 'green' : 'red'}-500`}>
@@ -70,12 +80,12 @@ const BudgetGoals = () => {
                   Delete
                 </button>
               </div>
-            </div>
+            </li>
           ))
         ) : (
-          <p>No goals set</p>
+          <li>No goals set</li>
         )}
-      </div>
+      </ul>
     </div>
   );
 };

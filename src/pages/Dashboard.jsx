@@ -1,8 +1,7 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import TransactionForm from "../components/TransactionForm";
-import BudgetGoals from "../components/BudgetGoals";
 import Chart from "../components/Chart";
 import TransactionList from "../components/TransactionList";
 import { getExpenseInsights } from '@/utils/expenseInsights';
@@ -13,9 +12,17 @@ import {
 } from "../selectors/financialSelectors";
 
 const Dashboard = () => {
-  const [editingTransaction, setEditingTransaction] = useState(null);
-  const [showTransactionList, setShowTransactionList] = useState(false);
-  const [showExpenseInsights, setShowExpenseInsights] = useState(false);
+  // Load saved states from localStorage
+  const [editingTransaction, setEditingTransaction] = useState(() => {
+    const savedTransaction = localStorage.getItem("editingTransaction");
+    return savedTransaction ? JSON.parse(savedTransaction) : null;
+  });
+  const [showTransactionList, setShowTransactionList] = useState(() => {
+    return JSON.parse(localStorage.getItem("showTransactionList")) || false;
+  });
+  const [showExpenseInsights, setShowExpenseInsights] = useState(() => {
+    return JSON.parse(localStorage.getItem("showExpenseInsights")) || false;
+  });
 
   const totalIncome = useSelector(getTotalIncome);
   const totalExpenses = useSelector(getTotalExpenses);
@@ -54,13 +61,12 @@ const Dashboard = () => {
     incomeValues: categories.map((category) => income[category] || 0),
   };
 
+ 
+
   const handleToggleTransactionList = () => {
     setShowTransactionList((prev) => !prev);
   };
 
-  const handleToggleExpenseInsights = () => {
-    setShowExpenseInsights((prev) => !prev);
-  };
 
   return (
     <div className="p-4">
@@ -93,33 +99,15 @@ const Dashboard = () => {
       />
       <button
         onClick={handleToggleTransactionList}
-        className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+        className="bg-blue-500 text-white px-4 py-2 rounded mt-4  w-full md:w-[20%]"
       >
         {showTransactionList ? 'Hide Transactions' : 'Show Transactions'}
       </button>
       {showTransactionList && (
         <TransactionList setEditingTransaction={setEditingTransaction} />
       )}
-      <BudgetGoals />
-      <button
-        onClick={handleToggleExpenseInsights}
-        className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
-      >
-        {showExpenseInsights ? 'Hide Expense Insights' : 'Show Expense Insights'}
-      </button>
-      {showExpenseInsights && (
-        <div className="mt-4">
-          <h2 className="text-xl font-semibold">Expense Insights</h2>
-          <ul>
-            {Object.entries(insights).map(([category, { totalSpent, suggestion }]) => (
-              <li key={category} className="mb-2">
-                <span className="font-semibold">{category}:</span> ${totalSpent.toFixed(2)}
-                <div className="text-gray-600">{suggestion}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
+      
+      
     </div>
   );
 };
