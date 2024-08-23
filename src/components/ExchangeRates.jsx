@@ -1,5 +1,5 @@
 import React from 'react';
-import { useGetExchangeRatesQuery } from '@/services/exchangeApi'; // Adjust path as necessary
+import { useGetExchangeRatesQuery } from '@/services/exchangeApi'; 
 
 const ExchangeRates = () => {
   const { data, error, isLoading } = useGetExchangeRatesQuery('USD');

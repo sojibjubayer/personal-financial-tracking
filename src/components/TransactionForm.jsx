@@ -1,6 +1,6 @@
 "use client";
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addTransaction,updateTransaction } from '@/redux/features/transactionsSlice'; 
 
 
@@ -13,7 +13,7 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    const parsedAmount = parseFloat(amount); // Ensure amount is a number
+    const parsedAmount = parseFloat(amount); 
     
     if (transaction) {
       dispatch(updateTransaction({ id: transaction.id, updates: { amount: parsedAmount, category, type } }));
@@ -30,8 +30,9 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
 
   return (
     <form onSubmit={handleSubmit} className="mt-4">
-      <h2 className="text-xl font-semibold">{transaction ? 'Edit Transaction' : 'Add Transaction'}</h2>
-      <div className="mb-4">
+      <h2 className="text-xl font-semibold text-center mt-5 text-zinc-700">{transaction ? 'Edit Transaction' : 'Add Transaction'}</h2>
+      <hr />
+      <div className="my-4">
         <label className="block text-gray-700">Type</label>
         <select
           value={type}
@@ -69,7 +70,7 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
      
       <button
         type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded  w-full md:w-[20%]"
+        className="bg-green-300 hover:bg-green-500 hover:text-white px-4 py-2 rounded  w-full md:w-[20%] flex mx-auto justify-center"
       >
         {transaction ? 'Update Transaction' : 'Add Transaction'}
       </button>

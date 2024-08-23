@@ -1,4 +1,3 @@
-// selectors/financeSelectors.js
 
 export const getTotalIncome = (state) => {
     return state.transactions

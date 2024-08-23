@@ -4,7 +4,7 @@ import Homepage from "@/pages/Homepage";
 
 export default function Home() {
   return (
-    <main className="w-[90%] mx-auto">
+    <main className="md:w-[90%] w-[95%] mx-auto">
     <Homepage />
     </main>
   );

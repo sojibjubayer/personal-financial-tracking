@@ -13,7 +13,7 @@ const ExpenseInsights = () => {
   }, [transactions]);
 
   if (!insights) {
-    return <div>Loading insights...</div>;
+    return <div className="min-h-screen">Loading insights...</div>;
   }
 
   return (

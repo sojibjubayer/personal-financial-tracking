@@ -6,14 +6,14 @@ import { getTotalExpenses } from '@/selectors/financialSelectors';
 
 const BudgetGoals = () => {
   const [goal, setGoal] = useState('');
-  const [isClient, setIsClient] = useState(false); // New state to ensure client-side rendering
+  const [isClient, setIsClient] = useState(false); 
 
   const dispatch = useDispatch();
   const goals = useSelector((state) => state.budgetGoals);
   const totalExpenses = useSelector(getTotalExpenses);
 
   useEffect(() => {
-    setIsClient(true); // Now we know we are on the client
+    setIsClient(true); 
   }, []);
 
   const handleAddGoal = () => {
@@ -35,7 +35,7 @@ const BudgetGoals = () => {
   };
 
   if (!isClient) {
-    return null; // Return nothing or a loading state during SSR
+    return null; 
   }
 
   return (

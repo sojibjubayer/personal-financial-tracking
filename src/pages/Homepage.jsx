@@ -3,7 +3,7 @@ import Dashboard from './Dashboard';
 
 const Homepage = () => {
     return (
-        <div className=''>
+        <div >
             <Dashboard />
         </div>
     );

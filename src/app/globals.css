@@ -2,3 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@media (max-width: 640px) {
+    .chart-height {
+      height: 400px;
+      width:285px; /* Adjust as needed */
+    }
+  }
+  
+  @media (min-width: 641px) {
+    .chart-height {
+      height: 500px; /* Adjust as needed */
+    }
+  }
+  
