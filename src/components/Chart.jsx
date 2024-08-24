@@ -66,7 +66,7 @@ const Chart = ({ data }) => {
   return (
     <div className=" mx-auto">
       <h2 className="text-base md:text-xl font-semibold mb-4 text-center">Income and Spending Chart</h2>
-      <div className="relative md:h-[500px] " >
+      <div className="relative lg:h-[500px] " >
         <Bar
           data={chartData}
           options={options}

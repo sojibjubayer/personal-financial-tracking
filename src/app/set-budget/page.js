@@ -1,20 +1,18 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addGoal, updateGoal, deleteGoal } from '@/redux/features/budgetGoalsSlice';
+import { addGoal, updateGoal, deleteGoal, useInitializeState } from '@/redux/features/budgetGoalsSlice';
 import { getTotalExpenses } from '@/selectors/financialSelectors';
+// import { useInitializeState } from './path/to/useInitializeState'; // Import the hook
 
 const BudgetGoals = () => {
   const [goal, setGoal] = useState('');
-  const [isClient, setIsClient] = useState(false); 
 
   const dispatch = useDispatch();
+  useInitializeState(dispatch); // Initialize the state from localStorage
+
   const goals = useSelector((state) => state.budgetGoals);
   const totalExpenses = useSelector(getTotalExpenses);
-
-  useEffect(() => {
-    setIsClient(true); 
-  }, []);
 
   const handleAddGoal = () => {
     if (!goal) return;
@@ -34,10 +32,6 @@ const BudgetGoals = () => {
     return goalAmount > 0 ? Math.min((totalExpenses / goalAmount) * 100, 100) : 0;
   };
 
-  if (!isClient) {
-    return null; 
-  }
-
   return (
     <div className="mt-4 min-h-screen w-[90%] mx-auto">
       <h2 className="text-xl font-semibold">Budget Goals</h2>
@@ -51,7 +45,7 @@ const BudgetGoals = () => {
         />
         <button
           onClick={handleAddGoal}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-2  w-full md:w-[20%]"
+          className="bg-blue-500 text-white px-4 py-2 rounded mt-2 w-full md:w-[20%]"
         >
           Add Goal
         </button>

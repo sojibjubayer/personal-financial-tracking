@@ -13,7 +13,7 @@ const ExpenseInsights = () => {
   }, [transactions]);
 
   if (!insights) {
-    return <div className="min-h-screen">Loading insights...</div>;
+    return <div className="min-h-screen"><span className="loading loading-ring loading-md"></span></div>;
   }
 
   return (
@@ -23,7 +23,10 @@ const ExpenseInsights = () => {
       <ul className="mt-5">
         {Object.entries(insights).map(([category, { totalSpent, suggestion }]) => (
           <li key={category} className="mb-4">
-            <span className="font-semibold bg-stone-200 px-3 py-1 rounded-sm">{category}:</span> ${totalSpent.toFixed(2)}
+           <div className="flex gap-2">
+           <p className="font-semibold bg-red-100 shadow-sm   px-3 py-1 rounded-sm w-[120px]" >{category}</p> 
+           <p>${totalSpent.toFixed(2)}</p>
+           </div>
             <div className={`${totalSpent > 200 ? 'text-red-500' : 'text-green-600 '}`}>
                   {suggestion}
                 </div>

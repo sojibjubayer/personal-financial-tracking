@@ -7,25 +7,25 @@ const TransactionList = ({ setEditingTransaction }) => {
   const dispatch = useDispatch();
 
   return (
-    <div className="mt-4">
-      <h2 className="text-xl font-semibold">Transaction List</h2>
+    <div className="mt-4 md:w-[70%] mx-auto">
+      <h2 className="md:text-xl text-lg font-semibold text-center">Transaction List</h2>
       <ul>
         {transactions.map((transaction) => (
-          <li key={transaction.id} className="mb-2 flex justify-between">
+          <li key={transaction.id} className="mb-2 flex justify-between bg-white shadow-md p-1 md:h-12  flex-col md:flex-row items-center ">
             <div>
               <span className="font-semibold">{transaction.type === 'income' ? 'Income' : 'Expense'}: </span>
-              ${transaction.amount} - {transaction.category}
+              ${transaction.amount.toFixed(2)} - {transaction.category}
             </div>
             <div>
               <button
                 onClick={() => setEditingTransaction(transaction)}
-                className="text-blue-500 mr-2"
+                className="bg-blue-200 mr-2 px-1 rounded-sm"
               >
                 Edit
               </button>
               <button
                 onClick={() => dispatch(deleteTransaction(transaction.id))}
-                className="text-red-500"
+                className="bg-red-200  px-1 rounded-sm"
               >
                 Delete
               </button>

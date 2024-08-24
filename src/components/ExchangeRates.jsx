@@ -1,18 +1,32 @@
+"use client"
+import { useGetExchangeRatesQuery } from '@/services/exchangeRateApi';
 import React from 'react';
-import { useGetExchangeRatesQuery } from '@/services/exchangeApi'; 
 
-const ExchangeRates = () => {
-  const { data, error, isLoading } = useGetExchangeRatesQuery('USD');
+const ExchangeRate = () => {
+  const { data, error, isLoading } = useGetExchangeRatesQuery();
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Error fetching exchange rates: {error.message}</p>;
+
+  if (!data) return <p>No data available</p>;
 
   return (
     <div>
-      <h1>Exchange Rates</h1>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      <h2>Exchange Rates</h2>
+      <ul>
+        {data.conversion_rates ? (
+          Object.keys(data.conversion_rates).map((currency) => (
+            <li key={currency}>
+              {currency}: {data.conversion_rates[currency]}
+            </li>
+          ))
+        ) : (
+          <p>No conversion rates available</p>
+        )}
+      </ul>
     </div>
   );
 };
 
-export default ExchangeRates;
+export default ExchangeRate;
