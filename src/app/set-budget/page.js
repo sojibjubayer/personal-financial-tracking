@@ -33,9 +33,9 @@ const BudgetGoals = () => {
   };
 
   return (
-    <div className="mt-4 min-h-screen w-[90%] mx-auto">
-      <h2 className="text-xl font-semibold">Budget Goals</h2>
-      <div className="mb-4">
+    <div className="mt-4 min-h-screen w-[90%] mx-auto ">
+      <h2 className="text-lg md:text-xl font-semibold text-center">Budget Goals</h2>
+      <div className="mb-4  ">
         <input
           type="number"
           value={goal}
@@ -43,36 +43,40 @@ const BudgetGoals = () => {
           className="mt-1 block w-full border-gray-300 rounded"
           placeholder="Enter goal amount"
         />
+        <div className='flex justify-center mt-3'>
         <button
           onClick={handleAddGoal}
-          className="bg-blue-500 text-white px-4 py-2 rounded mt-2 w-full md:w-[20%]"
+          className="bg-green-300 text-black px-4 py-2 rounded mt-2 w-full md:w-[20%] "
         >
-          Add Goal
+          Set Goal
         </button>
+        </div>
       </div>
       <ul>
         {goals && goals.length > 0 ? (
           goals.map((goal) => (
-            <li key={goal.id} className="mb-2 flex items-center justify-between">
+            <li key={goal.id} className="mb-2 flex items-center justify-between bg-white shadow-md lg:h-14 px-2 border mt-10">
               <div>
-                <span className="mr-2">${goal.amount.toFixed(2)}</span>
+                <span className="mr-2">Budget:  ${goal.amount.toFixed(2)}</span>
                 <span className={`text-${goal.achieved ? 'green' : 'red'}-500`}>
                   {goal.achieved ? 'Achieved' : `Progress: ${calculateProgress(goal.amount).toFixed(2)}%`}
                 </span>
               </div>
               <div>
+              <div className='flex flex-col lg:flex-row gap-2'>
                 <button
                   onClick={() => handleUpdateGoal(goal.id, !goal.achieved)}
-                  className={`text-${goal.achieved ? 'gray' : 'blue'}-500 ml-2`}
+                  className='bg-green-200 p-1 rounded-sm'
                 >
                   {goal.achieved ? 'Mark as Not Achieved' : 'Mark as Achieved'}
                 </button>
                 <button
                   onClick={() => handleDeleteGoal(goal.id)}
-                  className="text-red-500 ml-2"
+                  className="bg-red-200 p-1 rounded-sm"
                 >
                   Delete
                 </button>
+              </div>
               </div>
             </li>
           ))

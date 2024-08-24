@@ -1,3 +1,4 @@
+"use client"
 import { createSlice } from '@reduxjs/toolkit';
 import { useEffect } from 'react';
 
@@ -40,12 +41,12 @@ export const budgetGoalsSlice = createSlice({
       const index = state.findIndex(goal => goal.id === id);
       if (index !== -1) {
         state[index] = { ...state[index], ...updates };
-        saveState(state);  // Save updated state to localStorage
+        saveState(state);  
       }
     },
     deleteGoal: (state, action) => {
       const newState = state.filter(goal => goal.id !== action.payload);
-      saveState(newState);  // Save updated state to localStorage
+      saveState(newState);  
       return newState;
     },
     setInitialState: (state, action) => action.payload,

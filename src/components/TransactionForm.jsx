@@ -8,13 +8,12 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
   const [amount, setAmount] = useState(transaction ? transaction.amount : '');
   const [category, setCategory] = useState(transaction ? transaction.category : 'Food');
   const [type, setType] = useState(transaction ? transaction.type : 'expense');
-  const [currency, setCurrency] = useState(transaction ? transaction.currency : 'USD'); // Track currency as well
+  const [currency, setCurrency] = useState(transaction ? transaction.currency : 'USD');
   const dispatch = useDispatch();
 
   useInitializeState(dispatch);
   const { convertCurrency, isLoading, error } = useCurrencyConverter();
 
-  // Calculate converted amount in USD for display
   const convertedAmount = currency !== 'USD' ? convertCurrency(parseFloat(amount), currency, 'USD') : parseFloat(amount);
 
   useEffect(() => {
@@ -22,7 +21,7 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
       setAmount(transaction.amount.toString());
       setCategory(transaction.category);
       setType(transaction.type);
-      setCurrency(transaction.currency || 'USD'); // Set the currency if available
+      setCurrency(transaction.currency || 'USD'); 
     }
   }, [transaction]);
 
@@ -44,6 +43,19 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
         id: Date.now(), 
         currency 
       }));
+    }
+
+    // Set the cookie if the transaction type is "expense"
+    if (type === 'expense') {
+      document.cookie = `expense=${parsedAmount}; path=/`;
+
+      // Immediately check and confirm the cookie is set
+      const cookieValue = document.cookie
+        .split('; ')
+        .find(row => row.startsWith('expense='))
+        ?.split('=')[1];
+
+      console.log('Cookie set:', cookieValue); // Confirm that the cookie is set
     }
 
     setAmount('');
@@ -92,12 +104,13 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
           <option value="INR">INR</option>
           <option value="GBP">GBP</option>
           <option value="AED">AED</option>
-          {/* Add more currencies as needed */}
         </select>
       </div>
       <div className="mb-4 flex gap-1 items-center">
         <label className="block text-gray-700">Amount in USD:</label>
-        <p className='bg-white shadow-md px-2 py-1 rounded-md'> {currency !== 'USD' && convertedAmount ? convertedAmount.toFixed(2) : amount?amount:''}</p>
+        <p className='bg-white shadow-md px-2 py-1 rounded-md'>
+          {currency !== 'USD' && convertedAmount ? convertedAmount.toFixed(2) : amount ? amount : ''}
+        </p>
       </div>
       <div className="mb-4">
         <label className="block text-gray-700">Category</label>
@@ -115,7 +128,7 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
       </div>
       <button
         type="submit"
-        className="bg-green-300 hover:bg-green-500 hover:text-white px-4 py-2 rounded  w-full md:w-[20%] flex mx-auto justify-center"
+        className="bg-green-300 hover:bg-green-500 hover:text-white px-4 py-2 rounded  w-full md:w-[40%] lg:w-[20%] flex mx-auto justify-center"
       >
         {transaction ? 'Update Transaction' : 'Add Transaction'}
       </button>

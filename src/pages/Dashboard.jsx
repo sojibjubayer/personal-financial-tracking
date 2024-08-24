@@ -75,23 +75,23 @@ const Dashboard = () => {
 
   return (
     <div className="my-5">
-      <h1 className="md:text-2xl text-xl font-bold text-center">Dashboard</h1>
+      <h1 className="lg:text-2xl md:text-xl text-lg font-bold text-center">Dashboard</h1>
       <hr />
-      <div className="flex flex-col md:flex-row md:gap-20 gap-5 mt-5">
+      <div className="flex flex-col md:flex-row lg:gap-20 gap-5 mt-5">
         <div className="flex-1">
           <h3 className="text-base md:text-xl font-semibold mb-4 text-center">Summary</h3>
           <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mt-4">
-            <div className="bg-white p-2 md:p-4 rounded border shadow-md w-full text-center">
+            <div className="bg-white  lg:p-4 rounded border shadow-md w-full text-center">
               <h2 className="text-xl">Total Income</h2>
-              <p className="md:text-2xl text-base font-semibold">${totalIncome.toFixed(2)}</p>
+              <p className="lg:text-2xl md:text-xl  text-base font-semibold">${totalIncome.toFixed(2)}</p>
             </div>
-            <div className="bg-white p-4 rounded border shadow-md w-full text-center">
+            <div className="bg-white lg:p-4 rounded border shadow-md w-full text-center">
               <h2 className="text-xl">Total Expenses</h2>
-              <p className="md:text-2xl text-base font-semibold">${totalExpenses.toFixed(2)}</p>
+              <p className="lg:text-2xl md:text-xl text-base font-semibold">${totalExpenses.toFixed(2)}</p>
             </div>
-            <div className="bg-white p-4 rounded border shadow-md w-full text-center">
+            <div className="bg-white lg:p-4 rounded border shadow-md w-full text-center">
               <h2 className="text-xl">Total Savings</h2>
-              <p className="md:text-2xl text-base font-semibold">${totalSavings.toFixed(2)}</p>
+              <p className="lg:text-2xl md:text-xl text-base font-semibold">${totalSavings.toFixed(2)}</p>
             </div>
           </div>
         </div>
@@ -105,7 +105,7 @@ const Dashboard = () => {
       />
       <button
         onClick={handleToggleTransactionList}
-        className="bg-violet-300 hover:bg-violet-500 hover:text-white px-4 py-2 rounded mt-4 w-full md:w-[20%] flex mx-auto justify-center"
+        className="bg-violet-300 hover:bg-violet-500 hover:text-white px-4 py-2 rounded mt-4 w-full md:w-[40%] lg:w-[20%] flex mx-auto justify-center"
       >
         {showTransactionList ? 'Hide Transactions List' : 'See Transactions List'}
       </button>

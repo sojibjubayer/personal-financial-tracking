@@ -9,9 +9,4 @@
     }
   }
   
-  @media (min-width: 641px) {
-    .chart-height {
-      height: 500px; /* Adjust as needed */
-    }
-  }
-  
+ 

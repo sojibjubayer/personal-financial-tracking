@@ -1,3 +1,4 @@
+"use client"
 import { createSlice } from "@reduxjs/toolkit";
 import { useEffect, useState } from "react";
 
@@ -40,12 +41,12 @@ export const transactionsSlice = createSlice({
       const index = state.findIndex(transaction => transaction.id === id);
       if (index !== -1) {
         state[index] = { ...state[index], ...updates };
-        saveState(state);  // Save updated state to localStorage
+        saveState(state);  
       }
     },
     deleteTransaction: (state, action) => {
       const newState = state.filter(transaction => transaction.id !== action.payload);
-      saveState(newState);  // Save updated state to localStorage
+      saveState(newState);  
       return newState;
     },
     setInitialState: (state, action) => action.payload,

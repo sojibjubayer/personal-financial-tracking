@@ -6,10 +6,11 @@ import exchangeRateApi from '@/services/exchangeRateApi';
 
 export const store = configureStore({
   reducer: {
-    [exchangeRateApi.reducerPath]: exchangeRateApi.reducer,
+    
     transactions: transactionsReducer,
     categories: categoriesReducer,
     budgetGoals: budgetGoalsReducer,
+    [exchangeRateApi.reducerPath]: exchangeRateApi.reducer,
 
   },
   middleware: (getDefaultMiddleware) =>
