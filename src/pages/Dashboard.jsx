@@ -17,7 +17,7 @@ const Dashboard = () => {
   const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Only runs on the client side
+   
     setIsClient(true);
 
     const savedTransaction = localStorage.getItem("editingTransaction");

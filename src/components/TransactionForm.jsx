@@ -1,8 +1,8 @@
 "use client";
 import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addTransaction, updateTransaction, useInitializeState } from '@/redux/features/transactionsSlice'; 
-import { useCurrencyConverter } from '@/utils/currencyConversion'; 
+import { useCurrencyConverter } from '@/utils/currencyConversion';
 
 const TransactionForm = ({ transaction, setEditingTransaction }) => {
   const [amount, setAmount] = useState(transaction ? transaction.amount : '');
@@ -11,9 +11,14 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
   const [currency, setCurrency] = useState(transaction ? transaction.currency : 'USD');
   const dispatch = useDispatch();
 
-  useInitializeState(dispatch);
-  const { convertCurrency, isLoading, error } = useCurrencyConverter();
 
+  useInitializeState(dispatch);
+
+  // Access categories from Redux store
+  const categories = useSelector(state => state.categories);
+
+  // Currency conversion
+  const { convertCurrency, isLoading, error } = useCurrencyConverter();
   const convertedAmount = currency !== 'USD' ? convertCurrency(parseFloat(amount), currency, 'USD') : parseFloat(amount);
 
   useEffect(() => {
@@ -45,19 +50,9 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
       }));
     }
 
-    // Set the cookie if the transaction type is "expense"
-    if (type === 'expense') {
-      document.cookie = `expense=${parsedAmount}; path=/`;
 
-      // Immediately check and confirm the cookie is set
-      const cookieValue = document.cookie
-        .split('; ')
-        .find(row => row.startsWith('expense='))
-        ?.split('=')[1];
 
-      console.log('Cookie set:', cookieValue); // Confirm that the cookie is set
-    }
-
+    // Reset form fields
     setAmount('');
     setCategory('Food');
     setType('expense');
@@ -69,7 +64,9 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
 
   return (
     <form onSubmit={handleSubmit} className="">
-      <h2 className="text-xl font-semibold text-center mt-5 text-zinc-700">{transaction ? 'Edit Transaction' : 'Add Transaction'}</h2>
+      <h2 className="text-xl font-semibold text-center mt-5 text-zinc-700">
+        {transaction ? 'Edit Transaction' : 'Add Transaction'}
+      </h2>
       <hr />
       <div className="my-4">
         <label className="block text-gray-700">Type</label>
@@ -119,11 +116,9 @@ const TransactionForm = ({ transaction, setEditingTransaction }) => {
           onChange={(e) => setCategory(e.target.value)}
           className="mt-1 block w-full border-gray-300 rounded"
         >
-          <option>Salary</option>
-          <option>Food</option>
-          <option>Rent</option>
-          <option>Entertainment</option>
-          <option>Other</option>
+          {categories.map((cat, index) => (
+            <option key={index} value={cat}>{cat}</option>
+          ))}
         </select>
       </div>
       <button

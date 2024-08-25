@@ -1,21 +1,20 @@
-import { NextResponse } from 'next/server';
+import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
-export function middleware(request) {
-  const url = request.nextUrl.clone();
-  const hasTransactionsCookie = request.cookies.has('expense');
+export const middleware = async (request) => {
+  const token = cookies(request).get("__Secure-next-auth.session-token");
 
-  // Check if the current route is `/expense-insights`
-  if (url.pathname === '/expense-insights') {
-    // If the cookie is not present, redirect to the home page
-    if (!hasTransactionsCookie) {
-      url.pathname = '/';
-      return NextResponse.redirect(url);
-    }
+  const pathname = request.nextUrl.pathname
+  if(pathname.includes('api')) {
+      return NextResponse.next();
   }
 
+  if (!token) {
+    return NextResponse.redirect(new URL(`/login?redirect=${pathname}`, request.url));
+  }
   return NextResponse.next();
-}
+};
 
 export const config = {
-  matcher: ['/expense'],
+  matcher: [ "/expense",]
 };
